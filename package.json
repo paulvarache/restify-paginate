@@ -1,0 +1,37 @@
+{
+  "name": "restify-paginate",
+  "version": "0.0.1",
+  "description": "A resitfy a middleware that helps the navigation between pages.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "coverage": "./node_modules/.bin/istanbul cover ./nodeModules/.bin/_mocha && ./node_modules/.bin/istanbul report clover"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/paulvarache/restify-paginate.git"
+  },
+  "keywords": [
+    "restify",
+    "paginate",
+    "middleware",
+    "hypermedia",
+    "headers"
+  ],
+  "author": "Paul Varache",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulvarache/restify-paginate/issues"
+  },
+  "homepage": "https://github.com/paulvarache/restify-paginate#readme",
+  "dependencies": {
+    "extend": "^3.0.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.18",
+    "mocha": "^2.2.5",
+    "request-promise": "^0.4.3",
+    "restify": "^4.0.0",
+    "should": "^7.0.4"
+  }
+}
