@@ -69,7 +69,7 @@ module.exports = function (server, opts) {
             }
             if ((page) * per_page < count) {
 
-                params.page = Math.floor(count / per_page) + defaults.defaults.page;
+                params.page = count % per_page === 0 ? count / per_page : Math.floor(count / per_page + defaults.defaults.page);
                 links.last = baseUrl + server.router.render(req.route.name, params, params);
 
                 params.page = parseInt(page) + 1;
