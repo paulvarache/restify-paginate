@@ -76,4 +76,17 @@ describe('Paginate module with `per_page` key overridden', function () {
             done(err);
         });
     });
+
+    it('should add the per_page from the original url', function (done) {
+        request({
+            uri: 'http://localhost:6666/test?per_page=30',
+            resolveWithFullResponse: true
+        }).then(function (res) {
+            res.headers.link.should.be.eql('<http://localhost:6666/test?per_page=30&page=11>; rel="last", <http://localhost:6666/test?per_page=30&page=2>; rel="next"');
+            done();
+        }, function (err) {
+            console.log(err);
+            done(err);
+        });
+    });
 });
