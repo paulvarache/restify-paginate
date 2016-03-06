@@ -19,6 +19,9 @@ module.exports = function (server, opts) {
             page: req.params[opts.paramsNames.page] || defaults.defaults.page,
             per_page: req.params[opts.paramsNames.per_page] || defaults.defaults.per_page,
         };
+
+        var isPerPageSet = typeof req.params[opts.paramsNames.per_page] !== 'undefined';
+
         delete req.params[opts.paramsNames.page];
         delete req.params[opts.paramsNames.per_page];
 
@@ -34,6 +37,11 @@ module.exports = function (server, opts) {
 
         // Copy the params object
         extend(params, req.params);
+
+        // Add per_page param to params obejct in case it's been set originally
+        if (isPerPageSet) {
+            params[opts.paramsNames.per_page] = per_page;
+        }
 
         var paginate = {};
 
