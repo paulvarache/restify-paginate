@@ -118,8 +118,6 @@ describe('The paginate object added to the request object', function (done) {
 
     it('should cast page and per_page to number, if they\'re URL params', function (done) {
         testServer.get('/type-test', function (req, res, next) {
-            console.log(typeof(req.paginate.page));
-            console.log(typeof(req.paginate.per_page));
             try {
                 req.paginate.page.should.be.a.Number();
                 req.paginate.per_page.should.be.a.Number();
