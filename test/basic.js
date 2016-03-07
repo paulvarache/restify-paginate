@@ -83,3 +83,55 @@ describe('Paginate module without hostnames', function () {
         });
     });
 });
+
+describe('The paginate object added to the request object', function (done) {
+    var testServer;
+
+    before(function (done) {
+        testServer = restify.createServer({
+            name: 'test'
+        });
+
+        testServer.use(restify.queryParser());
+
+        testServer.use(paginate(testServer));
+
+        testServer.listen(9999, done);
+    });
+
+    it('should contain a page and per_page object', function (done) {
+        testServer.get('/object-test', function (req, res, next) {
+            try {
+                req.paginate.should.have.property('page');
+                req.paginate.should.have.property('per_page');
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+
+        request({
+            uri: 'http://localhost:9999/object-test'
+        });
+    });
+
+    it('should cast page and per_page to number, if they\'re URL params', function (done) {
+        testServer.get('/type-test', function (req, res, next) {
+            console.log(typeof(req.paginate.page));
+            console.log(typeof(req.paginate.per_page));
+            try {
+                req.paginate.page.should.be.a.Number();
+                req.paginate.per_page.should.be.a.Number();
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+
+        request({
+            uri: 'http://localhost:9999/type-test?page=2&per_page=2'
+        });
+    });
+});
