@@ -16,8 +16,8 @@ module.exports = function (server, opts) {
     opts = extend(true, defaults, opts);
     return function (req, res, next) {
         req.paginate = {
-            page: req.params[opts.paramsNames.page] || defaults.defaults.page,
-            per_page: req.params[opts.paramsNames.per_page] || defaults.defaults.per_page,
+            page: parseInt(req.params[opts.paramsNames.page]) || defaults.defaults.page,
+            per_page: parseInt(req.params[opts.paramsNames.per_page]) || defaults.defaults.per_page,
         };
 
         var isPerPageSet = typeof req.params[opts.paramsNames.per_page] !== 'undefined';
@@ -55,24 +55,24 @@ module.exports = function (server, opts) {
 
             if (opts.numbersOnly) {
                 // The current page is not the first one so we generate the first and prev links
-                if (parseInt(page) !== defaults.defaults.page) {
-                    links.prev = parseInt(page) - 1;
+                if (page !== defaults.defaults.page) {
+                    links.prev = page - 1;
                     links.first = defaults.defaults.page;
                 }
                 if ((page) * per_page < count) {
                     links.last = Math.floor(count / per_page) + defaults.defaults.page;
-                    links.next = parseInt(page) + 1;
+                    links.next = page + 1;
                 }
                 return links;
             }
 
             // The current page is not the first one so we generate the first and prev links
-            if (parseInt(page) !== defaults.defaults.page) {
+            if (page !== defaults.defaults.page) {
 
                 params.page = defaults.defaults.page;
                 links.first = baseUrl + server.router.render(req.route.name, params, params);
 
-                params.page = parseInt(page) - 1;
+                params.page = page - 1;
                 links.prev = baseUrl + server.router.render(req.route.name, params, params);
             }
             if ((page) * per_page < count) {
@@ -80,7 +80,7 @@ module.exports = function (server, opts) {
                 params.page = count % per_page === 0 ? count / per_page : Math.floor(count / per_page + defaults.defaults.page);
                 links.last = baseUrl + server.router.render(req.route.name, params, params);
 
-                params.page = parseInt(page) + 1;
+                params.page = page + 1;
                 links.next = baseUrl + server.router.render(req.route.name, params, params);
             }
             return links;
