@@ -47,8 +47,8 @@ module.exports = function (server, opts) {
 
         /**
          * Generates the first, prev, next, last links
-         * @param  {Integer} count  The total number of elements to paginate
-         * @return {Object}         A Hash like object with the links name as key and links as values
+         * @param  {Integer} [count]    The total number of elements to paginate. If no count is provided, no last page is added
+         * @return {Object}             A Hash like object with the links name as key and links as values
          */
         paginate.getLinks = function (count) {
             var links = {};
