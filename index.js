@@ -47,8 +47,8 @@ module.exports = function (server, opts) {
 
         /**
          * Generates the first, prev, next, last links
-         * @param  {Integer} count  The total number of elements to paginate
-         * @return {Object}         A Hash like object with the links name as key and links as values
+         * @param  {Integer} [count]    The total number of elements to paginate. If no count is provided, no last page is added
+         * @return {Object}             A Hash like object with the links name as key and links as values
          */
         paginate.getLinks = function (count) {
             var links = {};
@@ -59,27 +59,29 @@ module.exports = function (server, opts) {
                     links.prev = page - 1;
                     links.first = defaults.defaults.page;
                 }
-                if ((page) * per_page < count) {
+                if (count !== undefined && page * per_page < count) {
                     links.last = Math.floor(count / per_page) + defaults.defaults.page;
+                }
+                if (count === undefined || page * per_page < count) {
                     links.next = page + 1;
                 }
+
                 return links;
             }
 
             // The current page is not the first one so we generate the first and prev links
             if (page !== defaults.defaults.page) {
-
                 params.page = defaults.defaults.page;
                 links.first = baseUrl + server.router.render(req.route.name, params, params);
 
                 params.page = page - 1;
                 links.prev = baseUrl + server.router.render(req.route.name, params, params);
             }
-            if ((page) * per_page < count) {
-
+            if (count !== undefined && page * per_page < count) {
                 params.page = count % per_page === 0 ? count / per_page : Math.floor(count / per_page + defaults.defaults.page);
                 links.last = baseUrl + server.router.render(req.route.name, params, params);
-
+            }
+            if (count === undefined || page * per_page < count) {
                 params.page = page + 1;
                 links.next = baseUrl + server.router.render(req.route.name, params, params);
             }
