@@ -91,6 +91,8 @@ Here the next page is the second one and the last is the 1088th one because you 
 
 The `first` and `prev` keys are not added since the page asked is the first one.
 
+Depending on how you are retrieving your data, it may be the case, that you'll need to do another query to get total count of items. For huge data sets, this could have an significant performance impact. If that is the case, and you don't necessarily need the `last` page, you can call the `getLinks()` method without a param. This will only generate the first, next and previous links.
+
 ## Options
 
 You can change this module behavior through some options by giving them to the paginate module.
