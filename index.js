@@ -122,7 +122,7 @@ module.exports = function (server, opts) {
         paginate.getPaginatedResponse = function (data, count) {
             var index = (page - 1) * per_page;
 
-            if(data.length < index - per_page || page <= 0) {
+            if(data.length <= index || page <= 0) {
                 return {
                     error: 'page ' + page + ' not found'
                 };
