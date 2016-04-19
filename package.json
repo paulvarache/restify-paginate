@@ -1,6 +1,6 @@
 {
   "name": "restify-paginate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A resitfy a middleware that helps the navigation between pages.",
   "main": "index.js",
   "scripts": {
