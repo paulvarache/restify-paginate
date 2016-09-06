@@ -117,12 +117,12 @@ If you want to paginate data from a database, you probably want to paginate your
 ```js
 // SQL like query
 var query = 'SELECT * FROM my_table'
-            + 'OFFSET ' + (req.paginate.page * req.paginate.per_page)
-            + ' LIMIT ' + req.params.per_page;
+            + 'OFFSET ' + ((req.paginate.page - 1) * req.paginate.per_page)
+            + ' LIMIT ' + req.paginate.per_page;
 // Mongoose like query
 Potatoes.find()
-        .offset(req.paginate.page * req.paginate.per_page)
-        .limit(req.params.per_page);
+        .offset((req.paginate.page - 1) * req.paginate.per_page)
+        .limit(req.paginate.per_page);
 ```
 
 let's you return a paginated dataset from your database. Now you can generate a response containing this paginated data and links to the other pages:
@@ -159,12 +159,12 @@ e.g. using getLinks()
 ```js
 // SQL like query
 var query = 'SELECT * FROM my_table'
-            + 'OFFSET ' + (req.paginate.page * req.paginate.per_page)
-            + ' LIMIT ' + req.params.per_page;
+            + 'OFFSET ' + ((req.paginate.page - 1) * req.paginate.per_page)
+            + ' LIMIT ' + req.paginate.per_page;
 // Mongoose like query
 Potatoes.find()
-        .offset(req.paginate.page * req.paginate.per_page)
-        .limit(req.params.per_page);
+        .offset((req.paginate.page - 1) * req.paginate.per_page)
+        .limit(req.paginate.per_page);
 ```
 
 You can now get your links based on the total count of your result set
