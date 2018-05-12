@@ -32,7 +32,7 @@ module.exports = function (server, opts) {
 
         if (opts.hostname) {
             baseUrl = req.connection.encrypted ? 'https://' : 'http://';
-            baseUrl += req.headers.host;
+            baseUrl += req.headers.host.replace(/\/$/, '') + '/';
         }
 
         // Copy the params object
