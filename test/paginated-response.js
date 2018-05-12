@@ -9,7 +9,7 @@ var restify = require('restify'),
 describe('The getPaginatedResponse() function', function () {
     const baseUrl = 'http://localhost';
     const basePort = 3434;
-    const baseUri = `${baseUrl}:${basePort}`;
+    const baseUri = `${baseUrl}:${basePort}/`;
 
     before(function (done) {
         for (var i = 0; i < 100; i++) {
@@ -35,7 +35,7 @@ describe('The getPaginatedResponse() function', function () {
     it('should return the paginated data', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?page=5&per_page=2',
+            uri: 'test?page=5&per_page=2',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData.slice(8, 10));
@@ -49,7 +49,7 @@ describe('The getPaginatedResponse() function', function () {
     it('should return the pages', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?page=5&per_page=2',
+            uri: 'test?page=5&per_page=2',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
@@ -66,7 +66,7 @@ describe('The getPaginatedResponse() function', function () {
     it('should return status 404 in case the page is out of range', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?page=500&per_page=10',
+            uri: 'test?page=500&per_page=10',
             json: true
         }).then(function (res) {
             var error = 'did not return 404!';
@@ -82,7 +82,7 @@ describe('The getPaginatedResponse() function', function () {
 describe('The getResponse() function', function () {
     const baseUrl = 'http://localhost';
     const basePort = 4343;
-    const baseUri = `${baseUrl}:${basePort}`;
+    const baseUri = `${baseUrl}:${basePort}/`;
 
     before(function (done) {
         for (var i = 0; i < 5; i++) {
@@ -111,7 +111,7 @@ describe('The getResponse() function', function () {
     it('should return the data', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?page=5&per_page=5',
+            uri: 'test?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData);
@@ -125,7 +125,7 @@ describe('The getResponse() function', function () {
     it('should return the pages', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?page=5&per_page=5',
+            uri: 'test?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
@@ -142,7 +142,7 @@ describe('The getResponse() function', function () {
     it('should not return the last page, if count hasn\'t been provided', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test-no-count?page=5&per_page=5',
+            uri: 'test-no-count?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
