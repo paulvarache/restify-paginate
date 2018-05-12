@@ -5,6 +5,10 @@ var restify = require('restify'),
     server;
 
 describe('Paginate module with default options', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 3333;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
         server = restify.createServer({
             name: 'test'
@@ -19,16 +23,17 @@ describe('Paginate module with default options', function () {
             res.send("OK");
         });
 
-        server.listen(3333, done);
+        server.listen(basePort, done);
 
     });
 
     it('should add the link header with the right last and next links', function (done) {
         request({
-            uri: 'http://localhost:3333/test',
+            baseUrl: baseUri,
+            uri: '/test',
             resolveWithFullResponse: true
         }).then(function (res) {
-            res.headers.link.should.be.eql('<http://localhost:3333/test?page=7>; rel="last", <http://localhost:3333/test?page=2>; rel="next"');
+            res.headers.link.should.be.eql(`<${baseUri}/test?page=7>; rel="last", <${baseUri}/test?page=2>; rel="next"`);
             done();
         }, function (err) {
             console.log(err);
@@ -37,10 +42,11 @@ describe('Paginate module with default options', function () {
     });
     it('should add the link header with the right last, next, prev and first links', function (done) {
         request({
-            uri: 'http://localhost:3333/test?page=4',
+            baseUrl: baseUri,
+            uri: '/test?page=4',
             resolveWithFullResponse: true
         }).then(function (res) {
-            res.headers.link.should.be.eql('<http://localhost:3333/test?page=1>; rel="first", <http://localhost:3333/test?page=3>; rel="prev", <http://localhost:3333/test?page=7>; rel="last", <http://localhost:3333/test?page=5>; rel="next"');
+            res.headers.link.should.be.eql(`<${baseUri}/test?page=1>; rel="first", <${baseUri}/test?page=3>; rel="prev", <${baseUri}/test?page=7>; rel="last", <${baseUri}/test?page=5>; rel="next"`);
             done();
         }, function (err) {
             console.log(err);
@@ -50,6 +56,9 @@ describe('Paginate module with default options', function () {
 });
 
 describe('Paginate module without hostnames', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 7777;
+    const baseUri = `${baseUrl}:${basePort}`;
     before(function (done) {
         server = restify.createServer({
             name: 'test'
@@ -66,13 +75,14 @@ describe('Paginate module without hostnames', function () {
             res.send("OK");
         });
 
-        server.listen(7777, done);
+        server.listen(basePort, done);
 
     });
 
     it('should add the link header with the right last and next links', function (done) {
         request({
-            uri: 'http://localhost:7777/test',
+            baseUrl: baseUri,
+            uri: '/test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql('</test?page=7>; rel="last", </test?page=2>; rel="next"');
@@ -87,6 +97,10 @@ describe('Paginate module without hostnames', function () {
 describe('The paginate object added to the request object', function (done) {
     var testServer;
 
+    const baseUrl = 'http://localhost';
+    const basePort = 9999;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
         testServer = restify.createServer({
             name: 'test'
@@ -96,7 +110,7 @@ describe('The paginate object added to the request object', function (done) {
 
         testServer.use(paginate(testServer));
 
-        testServer.listen(9999, done);
+        testServer.listen(basePort, done);
     });
 
     it('should contain a page and per_page object', function (done) {
@@ -112,7 +126,8 @@ describe('The paginate object added to the request object', function (done) {
         });
 
         request({
-            uri: 'http://localhost:9999/object-test'
+            baseUrl: baseUri,
+            uri: '/object-test'
         });
     });
 
@@ -129,7 +144,8 @@ describe('The paginate object added to the request object', function (done) {
         });
 
         request({
-            uri: 'http://localhost:9999/type-test?page=2&per_page=2'
+            baseUrl: baseUri,
+            uri: '/type-test?page=2&per_page=2'
         });
     });
 });
