@@ -7,7 +7,7 @@ var restify = require('restify'),
 describe('Paginate module with `page` key overridden', function () {
     const baseUrl = 'http://localhost';
     const basePort = 5555;
-    const baseUri = `${baseUrl}:${basePort}`;
+    const baseUri = `${baseUrl}:${basePort}/`;
 
     before(function (done) {
         server = restify.createServer({
@@ -34,7 +34,7 @@ describe('Paginate module with `page` key overridden', function () {
     it('should add to the response the `pages` key', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test',
+            uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=6>; rel="last", <${baseUri}/test?page=1>; rel="next"`);
@@ -49,7 +49,7 @@ describe('Paginate module with `page` key overridden', function () {
 describe('Paginate module with `per_page` key overridden', function () {
     const baseUrl = 'http://localhost';
     const basePort = 6666;
-    const baseUri = `${baseUrl}:${basePort}`;
+    const baseUri = `${baseUrl}:${basePort}/`;
 
     before(function (done) {
         server = restify.createServer({
@@ -76,7 +76,7 @@ describe('Paginate module with `per_page` key overridden', function () {
     it('should add to the response the `pages` key', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test',
+            uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=16>; rel="last", <${baseUri}/test?page=2>; rel="next"`);
@@ -90,7 +90,7 @@ describe('Paginate module with `per_page` key overridden', function () {
     it('should add the per_page from the original url', function (done) {
         request({
             baseUrl: baseUri,
-            uri: '/test?per_page=30',
+            uri: 'test?per_page=30',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?per_page=30&page=11>; rel="last", <${baseUri}/test?per_page=30&page=2>; rel="next"`);
