@@ -32,6 +32,6 @@
     "mocha": "^2.2.5",
     "request-promise": "^0.4.3",
     "restify": "^4.0.0",
-    "should": "^7.0.4"
+    "should": "^13.2.1"
   }
 }
