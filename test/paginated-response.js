@@ -7,8 +7,12 @@ var restify = require('restify'),
     server;
 
 describe('The getPaginatedResponse() function', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 3434;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
-        for(var i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
             // generate random string
             testData[i] = Math.random().toString(36).substring(8);
         }
@@ -25,12 +29,13 @@ describe('The getPaginatedResponse() function', function () {
             res.paginate.sendPaginated(testData);
         });
 
-        server.listen(3434, done);
+        server.listen(basePort, done);
     });
 
-    it('should return the paginated data', function(done) {
+    it('should return the paginated data', function (done) {
         request({
-            uri: 'http://localhost:3434/test?page=5&per_page=2',
+            baseUrl: baseUri,
+            uri: '/test?page=5&per_page=2',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData.slice(8, 10));
@@ -41,9 +46,10 @@ describe('The getPaginatedResponse() function', function () {
         });
     });
 
-    it('should return the pages', function(done) {
+    it('should return the pages', function (done) {
         request({
-            uri: 'http://localhost:3434/test?page=5&per_page=2',
+            baseUrl: baseUri,
+            uri: '/test?page=5&per_page=2',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
@@ -57,9 +63,10 @@ describe('The getPaginatedResponse() function', function () {
         });
     });
 
-    it('should return status 404 in case the page is out of range', function(done) {
+    it('should return status 404 in case the page is out of range', function (done) {
         request({
-            uri: 'http://localhost:3434/test?page=500&per_page=10',
+            baseUrl: baseUri,
+            uri: '/test?page=500&per_page=10',
             json: true
         }).then(function (res) {
             var error = 'did not return 404!';
@@ -73,8 +80,12 @@ describe('The getPaginatedResponse() function', function () {
 });
 
 describe('The getResponse() function', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 4343;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
-        for(var i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
             // generate random string
             testData[i] = Math.random().toString(36).substring(8);
         }
@@ -97,9 +108,10 @@ describe('The getResponse() function', function () {
         server.listen(4343, done);
     });
 
-    it('should return the data', function(done) {
+    it('should return the data', function (done) {
         request({
-            uri: 'http://localhost:4343/test?page=5&per_page=5',
+            baseUrl: baseUri,
+            uri: '/test?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData);
@@ -110,9 +122,10 @@ describe('The getResponse() function', function () {
         });
     });
 
-    it('should return the pages', function(done) {
+    it('should return the pages', function (done) {
         request({
-            uri: 'http://localhost:4343/test?page=5&per_page=5',
+            baseUrl: baseUri,
+            uri: '/test?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
@@ -126,9 +139,10 @@ describe('The getResponse() function', function () {
         });
     });
 
-    it('should not return the last page, if count hasn\'t been provided', function(done) {
+    it('should not return the last page, if count hasn\'t been provided', function (done) {
         request({
-            uri: 'http://localhost:4343/test-no-count?page=5&per_page=5',
+            baseUrl: baseUri,
+            uri: '/test-no-count?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.pages.should.have.property('prev');
