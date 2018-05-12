@@ -5,6 +5,10 @@ var restify = require('restify'),
     server;
 
 describe('Paginate module with `page` key overridden', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 5555;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
         server = restify.createServer({
             name: 'test'
@@ -23,16 +27,17 @@ describe('Paginate module with `page` key overridden', function () {
             res.send("OK");
         });
 
-        server.listen(5555, done);
+        server.listen(basePort, done);
 
     });
 
     it('should add to the response the `pages` key', function (done) {
         request({
-            uri: 'http://localhost:5555/test',
+            baseUrl: baseUri,
+            uri: '/test',
             resolveWithFullResponse: true
         }).then(function (res) {
-            res.headers.link.should.be.eql('<http://localhost:5555/test?page=6>; rel="last", <http://localhost:5555/test?page=1>; rel="next"');
+            res.headers.link.should.be.eql(`<${baseUri}/test?page=6>; rel="last", <${baseUri}/test?page=1>; rel="next"`);
             done();
         }, function (err) {
             console.log(err);
@@ -42,6 +47,10 @@ describe('Paginate module with `page` key overridden', function () {
 });
 
 describe('Paginate module with `per_page` key overridden', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 6666;
+    const baseUri = `${baseUrl}:${basePort}`;
+
     before(function (done) {
         server = restify.createServer({
             name: 'test'
@@ -60,16 +69,17 @@ describe('Paginate module with `per_page` key overridden', function () {
             res.send("OK");
         });
 
-        server.listen(6666, done);
+        server.listen(basePort, done);
 
     });
 
     it('should add to the response the `pages` key', function (done) {
         request({
-            uri: 'http://localhost:6666/test',
+            baseUrl: baseUri,
+            uri: '/test',
             resolveWithFullResponse: true
         }).then(function (res) {
-            res.headers.link.should.be.eql('<http://localhost:6666/test?page=16>; rel="last", <http://localhost:6666/test?page=2>; rel="next"');
+            res.headers.link.should.be.eql(`<${baseUri}/test?page=16>; rel="last", <${baseUri}/test?page=2>; rel="next"`);
             done();
         }, function (err) {
             console.log(err);
@@ -79,10 +89,11 @@ describe('Paginate module with `per_page` key overridden', function () {
 
     it('should add the per_page from the original url', function (done) {
         request({
-            uri: 'http://localhost:6666/test?per_page=30',
+            baseUrl: baseUri,
+            uri: '/test?per_page=30',
             resolveWithFullResponse: true
         }).then(function (res) {
-            res.headers.link.should.be.eql('<http://localhost:6666/test?per_page=30&page=11>; rel="last", <http://localhost:6666/test?per_page=30&page=2>; rel="next"');
+            res.headers.link.should.be.eql(`<${baseUri}/test?per_page=30&page=11>; rel="last", <${baseUri}/test?per_page=30&page=2>; rel="next"`);
             done();
         }, function (err) {
             console.log(err);
