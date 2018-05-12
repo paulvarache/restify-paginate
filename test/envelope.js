@@ -5,6 +5,9 @@ var restify = require('restify'),
     server;
 
 describe('Paginate module with number only', function () {
+    const baseUrl = 'http://localhost';
+    const basePort = 4444;
+    const baseUri = `${baseUrl}:${basePort}`;
     before(function (done) {
         server = restify.createServer({
             name: 'test'
@@ -24,13 +27,14 @@ describe('Paginate module with number only', function () {
             });
         });
 
-        server.listen(4444, done);
+        server.listen(basePort, done);
 
     });
 
     it('should add to the response the `pages` key', function (done) {
         request({
-            uri: 'http://localhost:4444/test',
+            baseUrl: baseUri,
+            uri: '/test',
             json: true
         }).then(function (res) {
             should.exist(res.pages);
@@ -44,7 +48,8 @@ describe('Paginate module with number only', function () {
     });
     it('should add to the response the `pages` key and should contain the first and prev keys', function (done) {
         request({
-            uri: 'http://localhost:4444/test?page=2',
+            baseUrl: baseUri,
+            uri: '/test?page=2',
             json: true
         }).then(function (res) {
             should.exist(res.pages);
