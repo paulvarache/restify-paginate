@@ -27,30 +27,22 @@ describe('Paginate module with default options', function () {
 
     });
 
-    it('should add the link header with the right last and next links', function (done) {
-        request({
+    it('should add the link header with the right last and next links', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=7>; rel="last", <${baseUri}/test?page=2>; rel="next"`);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
-    it('should add the link header with the right last, next, prev and first links', function (done) {
-        request({
+    it('should add the link header with the right last, next, prev and first links', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?page=4',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=1>; rel="first", <${baseUri}/test?page=3>; rel="prev", <${baseUri}/test?page=7>; rel="last", <${baseUri}/test?page=5>; rel="next"`);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 });
@@ -79,17 +71,13 @@ describe('Paginate module without hostnames', function () {
 
     });
 
-    it('should add the link header with the right last and next links', function (done) {
-        request({
+    it('should add the link header with the right last and next links', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql('</test?page=7>; rel="last", </test?page=2>; rel="next"');
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 });

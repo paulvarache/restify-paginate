@@ -32,22 +32,18 @@ describe('The getPaginatedResponse() function', function () {
         server.listen(basePort, done);
     });
 
-    it('should return the paginated data', function (done) {
-        request({
+    it('should return the paginated data', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?page=5&per_page=2',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData.slice(8, 10));
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 
-    it('should return the pages', function (done) {
-        request({
+    it('should return the pages', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?page=5&per_page=2',
             json: true
@@ -56,10 +52,6 @@ describe('The getPaginatedResponse() function', function () {
             res.pages.should.have.property('next');
             res.pages.should.have.property('first');
             res.pages.should.have.property('last');
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 
@@ -108,22 +100,18 @@ describe('The getResponse() function', function () {
         server.listen(4343, done);
     });
 
-    it('should return the data', function (done) {
-        request({
+    it('should return the data', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?page=5&per_page=5',
             json: true
         }).then(function (res) {
             res.data.should.be.eql(testData);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 
-    it('should return the pages', function (done) {
-        request({
+    it('should return the pages', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?page=5&per_page=5',
             json: true
@@ -132,15 +120,11 @@ describe('The getResponse() function', function () {
             res.pages.should.have.property('next');
             res.pages.should.have.property('first');
             res.pages.should.have.property('last');
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 
-    it('should not return the last page, if count hasn\'t been provided', function (done) {
-        request({
+    it('should not return the last page, if count hasn\'t been provided', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test-no-count?page=5&per_page=5',
             json: true
@@ -149,10 +133,6 @@ describe('The getResponse() function', function () {
             res.pages.should.have.property('next');
             res.pages.should.have.property('first');
             res.pages.should.not.have.property('last');
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 });

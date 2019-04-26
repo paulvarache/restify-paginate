@@ -31,17 +31,13 @@ describe('Paginate module with `page` key overridden', function () {
 
     });
 
-    it('should add to the response the `pages` key', function (done) {
-        request({
+    it('should add to the response the `pages` key', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=6>; rel="last", <${baseUri}/test?page=1>; rel="next"`);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 });
@@ -73,31 +69,23 @@ describe('Paginate module with `per_page` key overridden', function () {
 
     });
 
-    it('should add to the response the `pages` key', function (done) {
-        request({
+    it('should add to the response the `pages` key', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?page=16>; rel="last", <${baseUri}/test?page=2>; rel="next"`);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 
-    it('should add the per_page from the original url', function (done) {
-        request({
+    it('should add the per_page from the original url', function () {
+        return request({
             baseUrl: baseUri,
             uri: 'test?per_page=30',
             resolveWithFullResponse: true
         }).then(function (res) {
             res.headers.link.should.be.eql(`<${baseUri}/test?per_page=30&page=11>; rel="last", <${baseUri}/test?per_page=30&page=2>; rel="next"`);
-            done();
-        }, function (err) {
-            console.log(err);
-            done(err);
         });
     });
 });

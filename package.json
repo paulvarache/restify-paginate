@@ -4,8 +4,8 @@
   "description": "A resitfy a middleware that helps the navigation between pages.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha && ./node_modules/.bin/istanbul report clover"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha && istanbul report clover"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,11 @@
     "extend": "^3.0.0"
   },
   "devDependencies": {
-    "istanbul": "^0.3.18",
-    "mocha": "^2.2.5",
-    "request-promise": "^0.4.3",
-    "restify": "^4.0.0",
+    "istanbul": "^0.3.22",
+    "mocha": "^6.1.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "restify": "^4.3.4",
     "should": "^13.2.1"
   }
 }
