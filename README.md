@@ -36,9 +36,8 @@ var server = restify.createServer({
         name: 'My API'
     });
 
-server.use(restify.queryParser());
+server.use(restify.plugins.queryParser({ mapParams: true }));
 server.use(paginate(server));
-
 ```
 
 This will process the `page` and `per_page` request params and add them in the request object under the `paginate` key.
