@@ -11,7 +11,9 @@ module.exports = function (server, opts) {
             per_page: 50
         },
         numbersOnly: false,
-        hostname: true
+        hostname: true,
+        forceBaseUrl: false,
+        baseUrl: '', // set this to force url to your needs, example localhost:5000
     };
     opts = extend(true, defaults, opts);
     return function (req, res, next) {
@@ -33,6 +35,10 @@ module.exports = function (server, opts) {
         if (opts.hostname) {
             baseUrl = req.connection.encrypted ? 'https://' : 'http://';
             baseUrl += req.headers.host.replace(/\/$/, '') + '/';
+            if (opts.forceBaseUrl) {
+                baseUrl = req.connection.encrypted ? 'https://' : 'http://'
+                baseUrl += opts.baseUrl;
+            }
         }
 
         // Copy the params object
