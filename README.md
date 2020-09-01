@@ -210,7 +210,9 @@ By default these options are:
         per_page: 50
     },
     numbersOnly: false,         // Generates the full links or not
-    hostname: true              // Adds the hostname in the links or not
+    hostname: true,             // Adds the hostname in the links or not
+    forceBaseUrl: false,        // Set to true to force baseUrl to your needs
+    baseUrl: ''                 // Set baseUrl to display on pagination, eg: localhost:5000
 }
 ```
 
